@@ -1,0 +1,82 @@
+前提:服务器或本地安装了gitlab服务端,之后在本地下载git客户端并安装
+
+git(分布式版本控制系统)命令:
+1.初始化git,会在当前目录下创建.git的隐藏
+  git init
+
+2.添加用户名和有邮箱
+  git config --global user.name "zoujun"
+  git config --global user.email "1975066419@qq.com"
+
+3.配置SSH
+	ssh-keygen -t rsa -C "1975066419@qq.com"
+	注: 执行如上命令后会在你的用户下生成.ssh文件夹,其中id_rsa.pub就是你的公钥,把公钥配置在你的gitlab页面的setting中的SSH中
+
+4.拉取master和指定分支代码
+	git clone git@20.5.208.139:ntm/ntm.git
+	git clone -b dev git@20.5.208.139:ntm/ntm.git
+
+5.创建文件/添加文件/提交
+	touch readme.md
+	git add readme.md
+	git add .: add所有变动代码
+	git commit -m "add readme.md"
+
+6.代码推送
+	git push -u origin master
+	git push
+
+7.创建分支/删除分支
+	git branch: 查看当前分支
+	git checkout -b dev
+	git checkout -d dev
+
+8.dev合并到master
+	git checkout master: 先切换到master
+	git merge dev: dev合并到当前分支
+
+9.更分支代码和分支更新
+	git pull
+	git fetch
+
+10.git强制覆盖
+	git fetch --all && git reset --hard origin/master && git pull
+
+
+
+git的撤销操作
+1.add撤销
+	git status: 查看add中的文件
+	git reset HEAD: 撤销上一次add的全部内容
+	git reset HEAD xx/xx.java: 对add的某个文件进行撤销
+
+2.commit撤销
+	git log: 查看commit节点(commit_id)
+	git reset commit_id: 回退到上一次commit节点,代码保持不变
+	git reset --head commit_id: 回退到上一次commit节点,代码恢复上一次commit状态
+
+3.push撤销
+	git revert HEAD/commit_id: 提交一个新版本,将需要revert的版本内容在反向修改回去,版本会递增,不影响之前提交的内容
+
+
+
+git问题解决
+1.git无法fork代码
+	通过管理员账户配置无法fork代码的用户,将其Access的Projects limit设置为非0
+
+2.上传代码显示push拒绝
+	a.登录gitlab后左下角Settings--Repository(仓库)--Protected Branches
+	b.点击右侧的Expand(展开),修改master分支对应的权限
+
+
+
+merge和rebase的区别
+1.merge是合并两个分支之间的所有版本并最终生成一个新版本
+2.rebase是在master分支下的版本后追加dev的版本,最终以master的最新版本为准
+3.merge结果可以体现出时间线,rebase会打乱时间线
+4.rebase看起来简洁,merge会较复杂
+5.git pull = git fetch + git merge    git pull --rebase = git fetch + git rebase
+
+
+
+

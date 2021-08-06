@@ -1,0 +1,102 @@
+注解:
+@Component : 把普通pojo实例化到spring容器中,相
+<bean id="" class="" />
+@controller(控制器) : 用于标注控制层，相当于struts中的action层
+@service(服务,注入dao) : 用于标注服务层，主要用来进行业务的逻辑处理
+@repository(dao层实现类) : 用于标注数据访问层，也可以说用于标注数据访问组件，即DAO组件	
+@Mapper : 自动生成实现类
+@ComponentScan : 扫描到Configuration配置类并加入到程序的上下文,组件扫描,可以自动发现和装配一些bean
+@Configuration  : 等同于spring的XML配置文件,使用Java代码可以检查类型安全。
+@EnableAutoConfiguration : 自动配置
+@ResponseBody ：表示该方法的返回结果直接写入HTTP response body中,一般在异步获取数据时使用
+@RestController : @Controller和@ResponseBody的合集,表示这是个控制器bean,并且是将函数的返回值直 接填入HTTP响应体中,是REST风格的控制器
+@Autowired : 自动导入
+@PathVariable : 获取参数
+@JsonBackReference : 解决嵌套外链问题
+@RepositoryRestResourcepublic : 配合spring-boot-starter-data-rest使用
+@SpringBootApplication ：申明让spring boot自动给程序进行必要的配置,这个配置等同于@Configuration ,@EnableAutoConfiguration,@ComponentScan 三注解的合集
+@RestController ：用于标注控制层组件(如struts中的action)，@ResponseBody和@Controller的合集
+@RequestMapping ：提供路由信息,负责URL到Controller中的具体函数的映射
+@Autowired ：自动导入依赖的bean
+@Bean ：用@Bean标注方法等价于XML中配置的bean
+@Value ：注入Spring boot application.properties配置的属性的值
+@Qualifier ：当有多个同一类型的Bean时,可以用@Qualifier(“name”)来指定
+@Primary : 表示默认优先选择,同时不可以设置多个(一般用在一个接口的两个实现类上)
+@Resource(name=”name”,type=”type”) ：没有括号内内容的话,默认byName,与@Autowired干类似的事
+@RequestParam ：用在方法的参数前面
+@PathVariable : 路径变量
+@Ignore : 忽略该测试方法
+@ConfigurationProperties(prefix="") : 获取配置文件中已什么为开头的参数
+@DirtiesContext : 清楚测试完毕的配置,使application context不被缓存,可以保证测试的独立,隔离性,不过会影响效率
+@KafkaListener(topics = "") : 注解内指定了topics名称,当对应的topics内有新消息时,则使用该注解的方法就会被调用,并且该方法的参数就是topics内的消息,同时这个过程是异步
+@KafkaListener工作流程 : 1.解析@KafkaListener注解 2.解析后的数据注册到spring-kafka 3.开始监听topic变更 4.调用注解表示的方法,将监听到的数据作为参数传入
+@JmsListener : 监听消息,实现异步消费
+@Scheduled : 定时执行(fixedRate : 上一次开始执行时间点之后多长时间在执行(ms	))
+@SuppressWarnings("unused") : 表示该属性在方法或类中没有使用,添加此注解可以去除属性上的黄色警告
+@PostConstruct : 该注解修饰的方法会在服务器加载Servlet的时候运行,并且只会被服务器调用一次,类似于Serclet的inti()方法.
+                 被@PostConstruct修饰的方法会在构造函数之后,init()方法之前运行
+@SuppressWarnings("unchecked","rawtypes") : 屏蔽一些无关紧要的警告.使开发者能看到一些他们真正关心的警告.从而提高开发者的效率
+@RunWith(SpringRunner.class) : 运行器,让测试运行于spring测试环境上
+@SpringBootTest : 用于测试的注解(springboot1.4后引入的)
+
+
+1. @SuppressWarnings(""):
+	jdk1.5新增的特性,用于取消一些编译器产生的警告对代码左侧行列的遮挡,有时还会影响我们打断点
+	all: 抑制所有警告
+	rawtype: 使用generics时忽略没有指定相应的类型
+	unchecked: 抑制没有进行类型检查操作的警告
+	unused: 抑制没被使用过的代码警告
+
+2. @Autowired,@Resource,@Qualifier
+	@Autowired: 根据类型注入
+	@Resource: 默认根据名字注入,其次根据类型搜索
+	@Autowired + @Qualifier("orderService"): 自动导入加名字匹配注入,即在service中需要使用注解 @Service("orderService")
+	
+3. @Repository
+	dao层实现类添加的注解,用于实现类加入到spring的bean管理
+
+4. @Service
+	service层实现类添加注解,用于把实现类加入到spring的bean管理
+
+5. @RestController,@Controller
+	@Component: 标记该类,并使其加入到spring的bean管理中
+	@Aspect: 把当前类标识为一个切面,用于供容器读取
+	@Target({Element.TYPE}): 指定何处为写入注解的合法位置
+	@Retention({RetentionPolicy.Runtime}): 指定注释要保留的时间
+		SOURCE: 注释只在源代码级别保留,编译时被忽略
+		CLASS(默认): 注解将被编译器在类文件中保留,但在运行时不需要在JVM保留
+		RUNTIME: 注解将被编译器记录在类文件中,且在运行时保留在JVM中可以反读
+	@Documented: 表示这个注解是由javadoc记录的,如果一个类型声明被注解文档化,它的注解成为公共api的一部分
+	@RequestBody: 将HTTP请求的正文插入
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,63 @@
+Sql基础
+
+oracle误删表dbf文件的处理方式
+	1.针对datafile进行数据库层面上的删除,不只是表面的文件删除
+		alter database datefile 'oracle/oradata/data.dbf' offline drop;
+	2.删除用户(例如:dosc)
+		drop user dosc cascade;
+	3.删除表空间(例如DOSC)
+		drop tablespace DOSC including contents and datefiles;
+
+where 1=1的作用
+	用来构建动态的sql,防止后续条件为空导致sql执行报错
+
+mysql和oracle在concat函数上的不同写法
+ mysql:  concat('%',#{name},'%')
+oracle:  concat(concat('%',#{name}),'%')
+
+查看mysql是否大小写敏感
+	show variables like '%lower_case_table_names%';
+	value=1: 大小写不敏感
+	value=0: 大小写敏感
+
+oracle用户解锁
+	alter user DOSC account unlock;
+
+oracle执行操作日志输出
+	spool D://dosc.log
+
+--根据出生年份计算生肖
+	select decode(mod(1995,12),0,'猴',1,'鸡',2,狗,3,'猪',4,'鼠',5,'牛',6,'虎',7,'兔',8,'龙',9,'蛇',10,'马',11,'鸡') sx from dual;
+
+--查询表空间
+	select * from dba_tablespaces;
+
+--查询所有表
+	select * from user_tables;
+
+--查询用户
+	select * from dba_users;
+
+--查看指定表对应的表空间
+	select * table_name,tablespace_name from user_tables where TABLE_NAME = '表名';
+
+--查询datafile(.dbf)
+	select * from dba_data_files;
+
+--查询数据库状态
+	select status from v$instance;
+
+--查看数据库编码格式
+	select userenv('language') from dual;
+
+--查看当前连接数
+	select count(*) from v$process;
+
+--数据库允许的最大连接数
+	select value from v$parameter where name = 'processes';
+
+--清理碎片空间(建表分区后就可能需要清理)
+	alter table 表名 enable row movement;
+	
+
+

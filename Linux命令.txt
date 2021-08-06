@@ -1,0 +1,52 @@
+Linux命令
+	10dd: vi打开往下删除10行
+	tar -zxvf dosc.tar.gz: 解压.tar.gz的包
+	tar -zxvf mysql.tar.gz -C /home/mysql: 解压.tar.gz的包到指定目录下
+	tar -zcvf dosc.tar.gz dosc: 把dosc目录压缩成dosc.tar.gz
+	tar -xvf dosc.tar: 解压.tar的包
+	tar -zxvf dosc.tar.tgz: 解压.tar.tgz的包
+	xz -d dosc.xz: 解压.tar.xz
+	unzip -d /home/mysql mysql.zip: 解压.zip的包到指定目录下
+	zip -r dosc.zip dosc: 把dosc迭代压缩成.zip文件
+	yum install lrzsz: 安装rzsz命令
+	sz: 从服务器取文件到本地
+	rz: 从本地上传文件到服务器
+	>: 覆盖输出
+	>>: 追加输出
+	scp -r dosc dosc@20.5.209.122:/home: 把dosc目录跨服务器复制到122服务器上的/home目录下,其权限为dosc用户权限
+	mkdir -p a/b: 创建多级目录
+	chmod -R 755 *: 给当前目录的所有文件迭代赋755的权限(用户,用户组,其他用户)
+	chown -R dosc:dosc *: 给当前目录下的所有文件迭代赋dosc用户权限
+	touch test.log: 创建文件
+	touch -t 202107140000 test.log: 修改文件的创建时间
+	netstat -tunlp|egrep "(9151|9152|9152|9154|9155)": 查看多个端口的状态
+	pstree -p | wc -l: 查看环境总线程数
+	ulimit -a: 查看虚拟机内存
+	ulimit -u: 查看系统用户设置的线程数
+	du -sh *: 查看占用内存
+	jmap -heap PID: 查看指定进程的堆内存信息
+	ps -xH |grep |wc -l: 查看端口对应的线程数
+	ps -mq 进程号 |wc -l: 查看进程对应的线程数
+	cat /proc/进程号/status: 进程信息文件
+	ps -fu: 需要用户名才能操作(ps -ef可以直接操作)
+	set ff: 查看文件是否为linux
+	dos2unix /app/*.sh: 把所有的sh脚本从doc格式转成linux格式
+	set ff unix: 把文件转成unix
+	lscpu: 查看环境CPU情况
+	sed -i '/--/d' $file : 删除文件中的指定内容行
+	sed -n '{N;s/\n/\t/p}' $file : 把文件中内容两行两行的合并
+	md5sum: 计算某个文件或目录的md5
+  
+
+
+
+文件所包含的时间
+	mtime: 文件的内容数据(文件内容,不是文件属性)更改时,更新的时间
+	ctime: 当文件的状态改变时,更新的时间
+	atime: 读取文件内容时,更新的时间(例如cat或less读取)
+	touch -a: 仅修改atime
+	touch -c: 仅修改ctime
+	touch -m: 仅修改mtime
+	touch -t YYYYMMddhhmm file.txt: 如果文件存在则文件的(mtime/ctime/atime)都将更新为当前时间,若文件不存在,则将自动创建一个新文件
+
+

@@ -1,0 +1,67 @@
+电脑型号和MAC : 华硕 X450VC AC-22-0B-1A-C7-5B
+
+
+如何查看电脑型号和MAC
+win+R dxdiag
+cmd ipconfig/all
+
+
+UE如何设置隐藏标题栏:
+  1.视图-->视图/列表-->打开文件标签
+
+
+xftp修改编码
+  1.file(文件)-->Properties(属性)-->Options(选项)-->Use UTF-8 encoding
+
+UE保存不产生bak文件
+  1.高级-->配置-->文件处理-->备份-->"不备份"
+
+
+UE可查询多次
+  1.ctrl+F-->高级-->找到后关闭本对话框
+
+
+windows查杀进程
+  1.查找指定端口的PID
+    netstat -ano | findstr 8090
+  2.根据PID查找对应的进程名称
+    tasklist | findstr 4960
+  3.根据PID强制关闭进程
+		taskkill -PID 4960 -F
+
+
+idea的"Command line is too long"的解决方案
+  run-->edit configurations-->项目-->configuration-->Environment-->Shorten Command line
+  1.默认选择的是: user-local default:none
+  2.修改后的选择: classpath file或jar manifest
+
+
+EditPlus打开保留上次打开的页面
+  1.Document-->Permanent Settings-->General-->Reload working files on startup(g勾选)
+
+
+设置editplus的tab键对应的空格数	
+	1.Tools-->Perferences-->File-->Settings & syntax-->Tab/Indent
+
+
+如何查询动车实时位置
+	1.我的-->时刻表-->输入车次号-->查询
+
+
+UE的ASCII码表
+	视图-->视图/列表-->ASCII字符表
+
+
+idea代码merge
+	1.dev分支commit/push修改代码并提交到远程
+	2.切换test分支先pull代码,选择dev分支"merge into current"
+	3.使用test分支push代码
+
+idea返回上一步的快捷键
+	Ctrl+Alt+左
+
+取消IDEA的自动导入
+file-setting-Maven-Importing取消勾选Import Maven projects automatically
+
+
+

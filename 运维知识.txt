@@ -1,0 +1,12 @@
+运维知识
+
+Nexus3为maven deploy角色设置权限:
+  1.nexus3中,已经没有了能对maven私服进行deploy的默认用户,只有admin和匿名用户
+  2.为了让一个角色能够对maven进行deploy,需要向它添加nx-repository-view-maven2-*-edit的权限,同时给它匿名角色所有权限即可
+
+scp执行WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!错误解决:
+	1.查看根目录下的.ssh/know_hosts文件
+		cat~/.ssh/known_hosts
+	2.删除对应的不能连接的ip地址对应的信息
+		vim~/.ssh/known_hosts
+		

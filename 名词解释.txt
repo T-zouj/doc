@@ -1,0 +1,90 @@
+一.Netty
+1.Netty:异步高性能的通讯框架,适用于分布式系统RPC框架中的基础通讯组件
+ (例如dubbo就是通过dubbo协议进行节点通讯,dubbo默认使用Netty作为基础通讯组件,用于实现各进程节点之间的内部通讯)
+  Netty的高性能在于他的I/O模型(收发数据)和线程处理模块(处理数据),封装了NIO,本身提供TCP/UDP/HTTP协议
+2.I/O模型:
+  a.传统阻塞型BIO : 每个请求需要占一个线程,不适合高并发情况,没数据可读时容易造成资源浪费
+  b.I/O复用模型 : 调用Select函数,可以同时阻塞对个I/O操作,检测多个读写操作,只有有数据可读可写才会真正调用I/O操作
+  c.非阻塞型NIO : Netty的I/O线程NioEventLoop聚合了多路复用器Selector,可以同时并发处理多个客户端连接,提高性能
+    和系统的可靠性,传统的I/O流是按顺序读取字节,不能随意改变读取指针的位置,NIO中引入Channel和Buffer,只能从
+    Channel中读取数据到Buffer,或将数据写入到Channel
+3.线程处理模块(事件处理模型的两种思路):
+  a.轮训方式 : 线程不断轮训访问事件源是否有发生事件,如若发生就调用事件处理逻辑
+  b.事件驱动方式(消息通知方式) : 主线程把发生的事件存入事件队列,副线程不断循环事件队列中的事件,调用事件对应的处理逻辑(观察者模式的思路)
+    组成事件驱动方式的四大组件:
+    1.事件队列(event queue):接入事件的入口,存储待处理的事件
+    2.分发器(event mediaator):将不同的事件分发到不同的业务逻辑单元
+    3.事件通道(event channel):分发器和处理器之间的联系渠道
+    4.事件处理器(event processor):实现业务逻辑,处理完成后发出事件,触发下一步操作
+    事件驱动方式的优点:可扩展性,分布式的异步架构,事件处理器之间高度解耦(关联性低),可方便扩展事件处理逻辑,高性能(基于队列暂存,方便异步处理事件)
+4.Netty调度模式名词解析:
+  a.Reactor(反应堆)模式(Dispatcher模式):服务端处理多路请求,并同步分派给对应的处理线程,I/O中多了复用统一监听事件
+  b.Reactor:在一个单独的线程中监听和分发事件,分发给对应的处理程序来处理事件
+  c.Hanlers(处理器):处理事件的具体程序
+  d.MainReactor:负责客户端的连接请求,并将请求转发给SubReactor
+  e.SubReactor:负责相应通道的I/O读写请求(SubReactor和worker线程在同一个线程池中)--bossGroup和workerGroup线程池
+  f.bossGroup:每个端口对应一个线程,这个线程用来当做MainReactor,用来处理Accept事件(接收请求事件)
+  g.workerGroup:会被SubReactor和work线程充分利用
+5.Netty总结:
+  a.Netty的线程模式主要基于"主从Reactor多线程模式",并相应做了一些修改,包含多个Reactor
+  b.异步请求发出后不会马上得到结果,当请求处理完成后会有状态通知,通过回调来通知调用者
+  c.Netty中的I/O操作是异步的,操作执行后会返回一个ChannelFuture,调用者会通过Future-Listence机制
+
+
+
+二.Redis
+1.Redis:单线程的非关系型数据库,理论上1秒可以处理10万并发,redis采用的是key-value形式存储的,类似于map(支持字符串,集合,列表,hash)
+  redis数据库受到物理内存的限制,不能作为海量数据库的高性能读写,适用于小数据量的高性能操作和运算
+  当在java代码中引入了redis后一般使用阿里的druid数据库连接,redis用的连接池为jedisPool
+2.Redis数据存储
+  a.String : set name zouj     get name
+  b.Hash : hmset parent name zouj age 22      hgetall parent
+  c.list : lpush parent zouj   lpush parent zouh         lrange parent 0 10
+  d.有序集合 : zadd db 1 mysql  zadd db 2 db2        zrange db 0 10 withscores
+  e.获取所有的key : keys *
+  f.删除key : del key
+  g.获取数据类型 : type key
+  h.向尾部追加 : append key value
+  i.获取字符串长度 : strlen key
+3.Redis(remote dictionary server)和Memcached的区别
+  a.redis单个value最大可存1G,memcached单个value最大存1M
+  b.redis在存入key-value时可以设置expire(失效)时间,相当于加强版的memcached
+  c.memcached只能存储字符串类型的数据,redis能支持丰富的数据类型(字符串,列表,集合,hash..)
+  d.redis主要消耗内存,一个存储字符串类型的value最大可以存512M
+  f.redis把数据读到内存中,在异步的将数据写入磁盘,故此达到高速读写的功能,redis具备快速和数据持久化的特点
+  g.redis集群方案:
+    1.codis:基本和twemproxy效果一致,支持在节点数改变的情况下旧节点恢复到新hash节点
+    2.redis cluster3.0:自带集群,他的分布式算法不是一致性hash,而是hash槽的概念,自身支持设置从节点
+  h.redis适用场景:
+    1.会话缓存(session cache):redis提供持久化使会话数据保持更加持久(例保存登录密码)
+    2.全页加载(FPC):因为有磁盘的持久化,用户及时重启redis在加载页面,页面的加载速度也不会下降(wp-redis插件可以让你最快速的加载曾经浏览过的页面)
+    3.队列:redis的优点就是提供队列的存储,是redis能够很好的作为一个消息队列
+    4.排行和计数:redis提供了有序集合的存储,这时的我们在对数字进行递增和递减变的很简单
+  i.redis支持java客户端:Redisson(高级的分布式协调redis客户端,帮助用户实现java对象),Jedis
+  j.Jedis和Redisson对比:Jedis比Redisson多了支持字符串,排序,事物,管道,分区等待性,Redisson注重用户对redis的关注分离,注意逻辑处理
+  k.redis如何设置密码及验证密码
+    1.设置密码:config set requirepass 123456
+    2.授权密码:auth 123456
+  l.redis哈希槽的概念:redis集群引入了hash槽,redis集群有16384个hash槽,每个key通过CRC16校验后对16384取模来决定放置那个槽,集群的每一个节点负责一部分hash槽
+
+
+
+三.非关系型数据库
+1.MongoDB(C++):高性能,开源,面向文档存储的数据库.相比较于他的不支持事物,占空间过大,他的高速插入
+  和可以简单的分割大数据表,快速安全的实现故障转移,具备索引可以快速查询,添加字段快速且不影响旧表
+  适用场景:文档化格式的存储查询,大数据量的服务器组成的数据库,对性能要求很高
+2.HBase(JAVA):依赖Hadoop的HDFS(分布式文件系统),是最基本的存储基础单元.相对而言适合java项目,配置麻烦
+  内存占用大,读取性能不高.存储容量大,可通过版本进行检索,可查询历史版本,负载高时可以通过添加机器来实现扩张,避免单点故障
+  适用场景:bigtable类型的数据存储,对数据版本有版本查询需求
+3.Redis(C/C++):基于键值对存储,存储吃内存,可提供持久化数据存储.redis集群不成熟,持久化功能体验不佳,
+  每隔一段时间就需要把数据写到磁盘上,由于是内存数据库,所以硬件内存提供丰富的数据结构(可存储多数据类型),
+  提供了事物功能,保证命令的原子性,读写贼快
+
+
+
+四.版本控制系统
+1.SVN:集中式版本控制系统
+
+
+
+2.GIT:分布式版本控制系统
