@@ -21,6 +21,9 @@ git(分布式版本控制系统)命令:
 	git add readme.md
 	git add .: add所有变动代码
 	git commit -m "add readme.md"
+	第一次推送
+	git remote add origin 'git@github.com:T-zouj/doc.git'
+	git push -u origin master
 
 6.代码推送
 	git push -u origin master
