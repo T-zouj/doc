@@ -21,7 +21,12 @@ oracle:  concat(concat('%',#{name}),'%')
 	value=0: 大小写敏感
 
 oracle用户解锁
-	alter user DOSC account unlock;
+	--dba查询锁表的sid(oracle系统id)
+		select object_name,machine,s.sid,s.serial# from gv$locked_object l,dba_objects 0,gv$session s where l.object_id = o.object_id and l.session_id = s.sid
+	--杀掉锁表的sid(immediate:强制执行)
+		alter system kill session sid immediate;
+	--dba用户解锁其他用户
+		alter user DOSC account unlock;
 
 oracle执行操作日志输出
 	spool D://dosc.log
@@ -57,7 +62,9 @@ oracle执行操作日志输出
 	select value from v$parameter where name = 'processes';
 
 --清理碎片空间(建表分区后就可能需要清理)
-	alter table 表名 enable row movement;
-	
+	--打开行移动
+		alter table 表名 enable row movement;
+	--关闭行移动
+		alter table 表名 disable row movement;
 
 

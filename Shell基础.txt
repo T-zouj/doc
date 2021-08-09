@@ -38,5 +38,16 @@ Shell基础
 	awk -F: '{print $1}' $file: 表示file文件中每行数据以":"分割后打印出第一个字段
 	awk -F= '{print $1}' $file: 表示file文件中每行数据以"="分割后打印出第一个字段
 	dirname /home/dosc.txt: 显示指定文件或目录的路径
-	ps p PID -L -o pcup
+	ps p PID -L -o pcup,pid,tid,cmd: 查看进程对应的所有线程
+	jmap -histo:live PID | grep "T4CConnection": 查看当前进程的数据库连接数
+	find /home/dosc -mtime +2 -type -f -name "dosc*" -exec rm -rf {} \: 删除指定路径(/home/dosc)下指定天数(2)后的指定规格文件(dosc*)
+	find /home/dosc -mtime +2 -type -d -name "dosc*" -exec rm -rf {} \: 删除指定路径(/home/dosc)下指定天数(2)后的指定规格目录(dosc*)
+	netstat -tunlp|egrep "(9151|9152|9152|9154|9155)": 查看多个端口的状态
+	netstat -antup | grep ftp: 查询ftp对应的端口
+	netstat -ltnp | grep pid/port: 通过pid查询端口号,通过端口号查询pid
+	diff -Nrq a b:迭代比较a和b目录的不同
+	useradd -m dosc: 创建用户
+	userdel -r dosc: 删除用户
+	groupadd dosc: 创建组
+	groupdel dosc: 删除组
 

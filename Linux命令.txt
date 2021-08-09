@@ -1,4 +1,6 @@
 Linux命令
+
+基础命令:
 	10dd: vi打开往下删除10行
 	tar -zxvf dosc.tar.gz: 解压.tar.gz的包
 	tar -zxvf mysql.tar.gz -C /home/mysql: 解压.tar.gz的包到指定目录下
@@ -36,11 +38,10 @@ Linux命令
 	sed -i '/--/d' $file : 删除文件中的指定内容行
 	sed -n '{N;s/\n/\t/p}' $file : 把文件中内容两行两行的合并
 	md5sum: 计算某个文件或目录的md5
+	openssl version: 查看linux的openssl版本
   
 
-
-
-文件所包含的时间
+文件所包含的时间:
 	mtime: 文件的内容数据(文件内容,不是文件属性)更改时,更新的时间
 	ctime: 当文件的状态改变时,更新的时间
 	atime: 读取文件内容时,更新的时间(例如cat或less读取)
@@ -48,5 +49,19 @@ Linux命令
 	touch -c: 仅修改ctime
 	touch -m: 仅修改mtime
 	touch -t YYYYMMddhhmm file.txt: 如果文件存在则文件的(mtime/ctime/atime)都将更新为当前时间,若文件不存在,则将自动创建一个新文件
+
+
+linux服务器重启(root):
+	reboot: 立即重启
+	shutdown -r now: 立即重启
+	shutdown -r 10: 10分钟后自动重启
+	shutdown -r 00:00: 指定时间重启
+linux服务器关机(root):
+	poweroff: 立即关机
+	shutdown -h now: 立即关机
+	shutdown -h 10: 10分钟后关机
+	shutdown -h 00:00: 指定时间关机
+
+
 
 

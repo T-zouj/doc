@@ -9,4 +9,64 @@ scp执行WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!错误解决:
 		cat~/.ssh/known_hosts
 	2.删除对应的不能连接的ip地址对应的信息
 		vim~/.ssh/known_hosts
-		
+
+ftp安装
+	1.安装vsftpd
+		yum install -y vsftp
+	2.vsftp的组成文件
+		cd /etc/vsftpd
+		vsftpd.conf: 核心配置文件
+		ftpusers: 黑名单
+		user_list: 白名单
+		vsftpd_conf_migrate.sh: vsftp操作的一些变量个设置
+	3.启动vsftp
+		systemctl start vsftpd
+		systemctl restart vsftpd
+	4.创建账号,修改密码
+		useradd ftp
+		passwd ftp
+	5.修改vsftpd.conf
+		anonymous_enable=NO
+		local_enable=YES
+		chroot_local_user=YES
+		chroot_local_enable=YES
+		chroot_list_file=/etc/vsftpd/chroot_list
+		pasv_enable=YES
+		pasv_min_port=8800
+		pasv_max_port=8899
+		allow_writeable_chroot=YES
+	6.创建chroot_list写入ntm用户
+		touch chroot_list
+
+
+当修改了linux环境上的jdk版本,并执行了source .bash_profile后需要重新打开一个页面才会显示生效
+
+
+weblogic域,机器,应用三者之间的关系
+	域(Domain): 管理服务器组,其中包含服务器,服务器集群,机器等信息
+	服务器(Server): 分为管理服务器,被管理服务器,两者都是jvm上运行的一个weblogicServer实例,在一个指定的WLS machine上运行,占有独立的内存和线程
+	管理服务器(AdminServer): 域的中央控制器,可以启停weblogic,可以在域内迁移服务器和服务,也可以部署应用(不过最好不要部署),一个域内有且只有一个管理服务器
+	被管理服务器(ManagedServer): 运行着应用实例,每个被管理服务器都是相互独立的,不在一个集群中,一个域根据需求可以包含多个被管理服务器
+	机器(Machine): 一台机器可以支持多个weblogic实例,用于将计算机和其他被管理服务器关联起来
+	集群(Cluster): 逻辑上的server组,高可用,负载均衡,集群中的server可以跨机器部署(weblogic版本一致)
+
+	总结:
+		1.一个域中有且只有一个管理服务器
+		2.一个域中可以包含一个或多个被管理服务器
+		3.一个域中可以包含一个或多个集群
+		4.被管理服务器可以逻辑上加入到集群中
+		5.一个域可以跨多个机器
+		6.集群中的被管理服务器可以跨机器部署(前提是weblogic版本一致)
+
+weblogic调整应用的日志输出
+	环境--服务器--指定服务器--服务器启动--参数
+	-Dlog4jLeve=debug
+	日志级别:
+		DEBUG: 打印细致信息事件,对调试应用有帮助,主要用于开发过程中打印一些运行信息
+		INFO: 打印程序的运行过程,可以用于生产输出程序运行的虫咬信息,但需要控制避免日志过多
+		WARN: 表明会出现的潜在错误情形,有些信息不实错误信息,但也要给程序员一些提示
+		ERROR: 指出虽然发生错误事件,但依旧不影响系统的继续运行,打印错误和异常信息,日志少
+		FATAL: 指出每个严重的会导致应用程序退出的错误事件,这个级别为最高,重大错误
+
+
+

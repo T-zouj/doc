@@ -1,3 +1,7 @@
+电商系统: dubbo,elasticsearch,jvm,elk,kafka,zookeeper,nginx,mysql,flink,hadoop,redis,netty
+前段:
+	CSS: 修饰页面
+
 jenkins,apollo,elasticSearch,Gatway,apm,Governer
 
 

@@ -333,6 +333,17 @@ double在运算中存在舍入误差,故此在做精密计算时需要采用BigD
 	轻量级锁: CAS,避免了互斥量开销,如果存在竞争则速度比重量级锁更慢.
 	重量级锁: Synchronized
 
+使用druid生成数据库密码密文
+	1.进入到druid的jar包目录
+		cd /home/ntm/lib
+		java -cp druid-1.1.9.jar com.alibaba.druid.filter.config.ConfigTools ntm(需要加密的明文)
+
+RSA加解密的关键点
+	1.公钥加密,私钥解密
+	2.公私钥和加密后的密文需要在同一维度,即密文是由该组公钥生成的,不能用另一组私钥来解密
+	3.同组公私钥每次生成的密文都是不同的,不过它支持解密旧的密文
+	4.每次生成的公私钥组都是不同的
+
 
 synchronized,volatile的cpu原语是如何实现
 
