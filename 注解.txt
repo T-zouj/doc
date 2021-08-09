@@ -67,7 +67,32 @@
 		CLASS(默认): 注解将被编译器在类文件中保留,但在运行时不需要在JVM保留
 		RUNTIME: 注解将被编译器记录在类文件中,且在运行时保留在JVM中可以反读
 	@Documented: 表示这个注解是由javadoc记录的,如果一个类型声明被注解文档化,它的注解成为公共api的一部分
-	@RequestBody: 将HTTP请求的正文插入
+	@RequestBody: 将HTTP请求的正文插入方法中,使用合适的HttpMessageConverter将请求体写入对象(解析请求,格式化请求数据到方法的请求参数中)
+	@RequestMapping: 用于映射请求,通过他来指定控制器可以处理那些URL请求,可作用于类和方法
+	@ResponseBody: 将java对象转成json格式,写入response的body区,使用此注解后不会在走视图处理器
+	@RestController: @Controller + @ResponseBody,适用于Controller层的注解,Controller中的方法无法返回jsp或html,返回的内容就是return中的内容
+	@Controller: Controller层的注解,用于加入spring的bean管理,用于跳转到指定页面
+
+6. @ApiOperation
+	可作用在类和方法上,使用在Controller层的类和方法上(使用在方法上表示一个http请求操作)
+	参数:
+		value: 用于方法的描述
+		notes: 用于提示内容
+		tags: 可以重新分组
+
+7.Swagger常用注解
+	@Api: 修饰整个类,描述Controller的作用
+	@ApiOperation: 描述一个类的方法(接口)
+	@ApiParam: 单个参数描述
+	@ApiModel: 用对象接收参数
+	@ApiModelProperty: 用对象接收参数时,描述对象的一个字段
+  @ApiResponse: HTTP响应其中一个描述
+	@ApiResponses: HTTP响应整体描述
+	@ApiIgnore: 使用该注解忽略这个API
+	@ApiError: 发生错误返回信息
+	@ApiImplicitParam: 一个请求参数
+	@ApiImplicitParams: 多个请求参数
+								
 
 	
 

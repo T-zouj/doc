@@ -30,9 +30,11 @@ git(分布式版本控制系统)命令:
 	git push
 
 7.创建分支/删除分支
-	git branch: 查看当前分支
 	git checkout -b dev
 	git checkout -d dev
+	git branch: 查看当前分支
+	git checkout dev: 切换分支
+
 
 8.dev合并到master
 	git checkout master: 先切换到master

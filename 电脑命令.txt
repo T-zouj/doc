@@ -63,5 +63,6 @@ idea返回上一步的快捷键
 取消IDEA的自动导入
 file-setting-Maven-Importing取消勾选Import Maven projects automatically
 
-
+idea创建main方法
+	psvm
 

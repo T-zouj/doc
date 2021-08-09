@@ -35,4 +35,8 @@ Shell基础
 	nohup: 后台运行,默认输出到当前nohup.out中							
 	ps -x | grep 应用名| grep -v grep | awk '{print $1}': 一般获取一个应用进程号的脚本
 	md5sum: 计算某个文件或目录的md5
+	awk -F: '{print $1}' $file: 表示file文件中每行数据以":"分割后打印出第一个字段
+	awk -F= '{print $1}' $file: 表示file文件中每行数据以"="分割后打印出第一个字段
+	dirname /home/dosc.txt: 显示指定文件或目录的路径
+	ps p PID -L -o pcup
 
